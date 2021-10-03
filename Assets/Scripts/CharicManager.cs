@@ -29,7 +29,6 @@ public class CharicManager : MonoBehaviour
     }
     public Charic Charic_add(int _id, string _resource, Charic.eType _type)
     {   
-        GameObject go = GameObject_from_prefab
         Charic aCharic = new Charic(); 
     }
     
