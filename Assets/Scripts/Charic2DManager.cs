@@ -1,6 +1,16 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
+/*
+Enemy enemy0;
+
+enemy0 = (Enemy)Charic2DManager.Instance.Charic_add(0, CharicType.Enemy, "Enemy");
+enemy0.target = hero;
+enemy0.Charic_init();
+
+Charic2DManager.Instance.Charics_update();
+*/
 
 public class Charic2DManager : MonoBehaviour
 {
@@ -58,7 +68,7 @@ public class Charic2DManager : MonoBehaviour
         uid_seed = 100;
     }
 
-    public void Charic_update()
+    public void Charics_update()
     {
         foreach (Charic2D obj in kCharicList)
         {
@@ -67,27 +77,34 @@ public class Charic2DManager : MonoBehaviour
     }
 
     // add charic
-    public Charic2D Charic_add(int _id, string _resource, Charic2D.eType _type)
+    public Charic2D Charic_add(int _id, CharicType _type, string _resource)
     {
-        Charic2D kCharic = new Charic2D();
+        //스크립트 Charic2D 추가된 GameObject 불러오기
+        GameObject go = GameObject_from_prefab(_resource);  //"Prefabs/" + _resource
+        Charic2D kCharic;
 
-        switch ((Charic2D.eType)_type)
+        switch ((CharicType)_type)
         {
-            case Charic2D.eType.Hero:
-            case Charic2D.eType.Enemy:
-            case Charic2D.eType.Boss:
+            case CharicType.Hero:
+            case CharicType.Enemy:
+                {
+                    kCharic = go.transform.GetComponent<Enemy>();
+                    kCharic.kGO = go;
+                    kCharic.kGO.name = "charic_" + kCharic.ID;
+                    kCharic.ID = _id;                           //id
+                    kCharic.kType = (CharicType)_type;      //type
+                }
+                break;
+            case CharicType.Boss:
             default:
                 {
-
-                    kCharic.ID = _id; //id
-                    kCharic.kType = (Charic2D.eType)_type;
-                    kCharic.kGO = GameObject_from_prefab("Prefabs/" + _resource);
+                    kCharic = go.transform.GetComponent<Charic2D>(); //new Charic2D();
+                    kCharic.kGO = go;
                     kCharic.kGO.name = "charic_" + kCharic.ID;
+                    kCharic.ID = _id;                           //id
+                    kCharic.kType = (CharicType)_type;      //type
 
-                    //kCharic.kGO = _go;
                     //kCharic.kTable = CGameTable.Instance.Get_TableInfo_charic(_table_index);
-                    //kCharic.kGO = CGame.Instance.GameObject_from_prefab("Prefabs/" + kCharic.kTable.resource, null);
-                    //kCharic.kGO.name = "charic_" + _table_index;
                     //kCharic.kGO.transform.localScale = new Vector3(kCharic.kTable.scale, kCharic.kTable.scale, kCharic.kTable.scale);
 
                     //kCharic.kEC = (EffectController)kGO.AddComponent<EffectController>();
@@ -96,7 +113,7 @@ public class Charic2DManager : MonoBehaviour
                 break;
         }
 
-        //Charic_gameobject_set( kCharic ); //client
+       
 
         kCharicList.Add(kCharic);
         return kCharic;

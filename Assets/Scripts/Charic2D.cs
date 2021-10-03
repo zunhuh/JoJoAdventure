@@ -5,29 +5,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// Type ------------------------------------
+public enum CharicType
+{
+    None,
+    Hero = 1,
+    Enemy = 2,
+    Boss = 3,
+};
+
 public class Charic2D : MonoBehaviour
 {
     public int  ID = -1;			// unity GetInstanceID();
     public bool	bActive = false;    // 활성여부, false 면 제거.
-    public GameObject kGO;              // GameObject
+    public CharicType kType;      // 캐릭터 종류
+    public GameObject kGO;          // GameObject
 
     public Rigidbody2D      rigid2D;
 
     public SpriteRenderer   spriteRenderer;
     public Animator         animator;
+        
 
     // move -----------------------------------
     public float            MoveSpeed = 0;  
 
-    // Type ------------------------------------
-    public enum eType
-    {
-        None,
-        Hero = 1,
-        Enemy = 2,
-        Boss = 3,    
-    };
-    public eType kType;             //캐릭터종류
 
     // Act -------------------------------------
     public enum eAct // animation + transform + state
@@ -53,11 +55,11 @@ public class Charic2D : MonoBehaviour
     public int dp_max = 0;          //
     public float aspeed = 0;        //공속
 
-    float fAttackTime = 0;          //공격간격 제어.
+    protected float fAttackTime = 0;          //공격간격 제어.
 
     // target charic
     public Charic2D target_charic = null;
-    public GameObject   target = null;       // target GameObject   
+    public GameObject target = null;       // target GameObject   
 
     
     public delegate void Callback_charic(Hashtable _data);
@@ -73,12 +75,6 @@ public class Charic2D : MonoBehaviour
 
     public virtual void Charic_init()   //CharicManager
     {
-        bActive = true;
-
-        //행동패턴
-        Act_start(Charic2D.eAct.idle);
-        fAttackTime = Time.time;
-
         //data table 
         hp_cur = 100;           //생명력
         hp_max = 100;           //
@@ -87,11 +83,18 @@ public class Charic2D : MonoBehaviour
         dp_cur = 0;             //방어력
         dp_max = 0;             //
         aspeed = 1.0f;          //공속
+
+        //행동패턴
+        Act_start(Charic2D.eAct.idle);
+        fAttackTime = Time.time;
+
+        bActive = true;
     }
 
     public virtual void Charic_update() //CharicManager
     {
-        Action_update();
+        if (!bActive) return;
+        Act_update();
     }
 
     void Update()
@@ -108,7 +111,7 @@ public class Charic2D : MonoBehaviour
         Vector2 moveDir = Vector2.zero;
         if (target != null)
         {
-            Vector3 dir = GetDir2D(transform.position, target.transform.position);
+            Vector3 dir = GetDir2D(target.transform.position, transform.position );
             moveDir = new Vector2(dir.x, dir.y);
         }
         rigid2D.position += moveDir * MoveSpeed * Time.deltaTime;
@@ -178,7 +181,7 @@ public class Charic2D : MonoBehaviour
         return 0;
     }
 
-    public void Action_update()
+    public virtual void Act_update()
     {
         switch (act_cur)
         {
@@ -188,12 +191,12 @@ public class Charic2D : MonoBehaviour
                 break;
             case eAct.idle:
                 if (target == null) break;
-                if (GetDistrance2D(transform.position, target.transform.position) < 3)
+                if (GetDistrance2D(target.transform.position, transform.position) < 3)
                 Act_start(eAct.run);
                 break;
             case eAct.run:
                 if (target == null) { Act_start(eAct.idle); break; }
-                if (GetDistrance2D(transform.position, target.transform.position) > 6)
+                if (GetDistrance2D(target.transform.position, transform.position) > 6)
                 Act_start(eAct.idle);
                 break;
             case eAct.attack:
@@ -214,15 +217,15 @@ public class Charic2D : MonoBehaviour
 
     public float GetDistrance2D(Vector3 target, Vector3 source)
     {
-        Vector2 spos = new Vector2(source.x, source.y);
         Vector2 tpos = new Vector2(target.x, target.y);
+        Vector2 spos = new Vector2(source.x, source.y);        
         return Vector2.Distance(tpos, spos);
     }
 
     //-----------------------------------------------------------------------------
     public bool IsEnemy()
     {
-        if (kType == eType.Enemy) return true;
+        if (kType == CharicType.Enemy) return true;
         return false;
     }
     public bool IsIdle()

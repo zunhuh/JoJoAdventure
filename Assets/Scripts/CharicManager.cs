@@ -29,7 +29,8 @@ public class CharicManager : MonoBehaviour
     }
     public Charic Charic_add(int _id, string _resource, Charic.eType _type)
     {   
-        Charic aCharic = new Charic(); 
+        Charic aCharic = new Charic();
+            return aCharic;
     }
     
 
