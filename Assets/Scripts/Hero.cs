@@ -28,7 +28,12 @@ public class Hero : MonoBehaviour
         Move();
         if (Input.GetKeyDown(KeyCode.Space))
         { 
-            GameObject go = GameObject.Instantiate(bullet);            go.transform.position = firepos.transform.position;            go.GetComponent<Bullet>().Setup(monster);        }
+            GameObject go = GameObject.Instantiate(bullet);
+            go.transform.position = firepos.transform.position;
+
+            Charic2D mm =  Charic2DManager.Instance.Charic_find_enemy(transform);
+            if(mm!= null) go.GetComponent<Bullet>().Setup(mm.kGO);
+        }
 
     
 }

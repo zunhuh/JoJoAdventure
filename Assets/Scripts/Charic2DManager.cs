@@ -152,6 +152,23 @@ public class Charic2DManager : MonoBehaviour
         }
         return null;
     }
+
+    public Charic2D Charic_find_enemy(Transform tr) //근접 몬스터 찾기
+    {
+        Charic2D monster = null;
+        float dist = 99999;
+
+        for (int i = 0; i < kCharicList.Count; i++)
+        {
+            Charic2D obj = (Charic2D)kCharicList[i];
+            if (obj == null) continue;
+
+            float dist_cur = Vector3.Distance(tr.position, obj.kGO.transform.position);
+            if ( dist_cur < dist) {
+                dist = dist_cur;
+                monster = obj;                
+            }
+        }
+        return monster;
+    }
 }
-
-

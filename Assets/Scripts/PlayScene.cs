@@ -5,22 +5,30 @@ using UnityEngine;
 public class PlayScene : MonoBehaviour
 {
     public Transform[] spawnpos;
-
-    Enemy enemy0;
+    public GameObject hero;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemy0 = (Enemy)Charic2DManager.Instance.Charic_add(0, CharicType.Enemy, "Enemy");
-        enemy0.target = null;
-        enemy0.Charic_init();
-
+        InvokeRepeating("Spawn", 0, 3);
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        Charic2DManager.Instance.Charics_update();
         
+    }
+    public void Spawn()
+    {
+        int rnd = Random.Range(0, spawnpos.Length);
+        Instantiate(spawnpos[rnd], transform);
+
+        Enemy enemy;
+        enemy = (Enemy)Charic2DManager.Instance.Charic_add(0, CharicType.Enemy, "Enemy");
+        enemy.target = hero;
+        enemy.Charic_init();
     }
 
 }

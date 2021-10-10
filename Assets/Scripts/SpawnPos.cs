@@ -18,7 +18,6 @@ public class SpawnPos : MonoBehaviour
 
     public void Spawn()
     {
-        int rnd = Random.Range(0, enemys.Length);
-        Instantiate(enemys[rnd], transform);
+     
     }
 }
