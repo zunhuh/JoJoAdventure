@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : MonoBehaviour
-{
+{ 
     public SpriteRenderer p_spriteRenderer;
     public SpriteRenderer c_spriteRenderer;
     public Animator animator;
@@ -12,12 +12,12 @@ public class Hero : MonoBehaviour
     public GameObject player;
     public GameObject bullet;
     public GameObject firepos;
-    public GameObject monster;
 
     string anim_cur = "idle";
     string anim_old ="";
 
-    void Start()
+    
+        void Start()
     {
         
     }
@@ -25,28 +25,34 @@ public class Hero : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        HeroMove();
+        Fire();    
+    }
+
+    public void Fire()   //ÃÑ¾Ë¹ß»ç
+    {
         if (Input.GetKeyDown(KeyCode.Space))
-        { 
-            GameObject go = GameObject.Instantiate(bullet);
-            go.transform.position = firepos.transform.position;
+        {
+            Charic2D mm = Charic2DManager.Instance.Charic_find_enemy(transform);
+            if (mm != null)
+            {
+                GameObject go = GameObject.Instantiate(bullet);
+                go.transform.position = firepos.transform.position;
+                go.GetComponent<Bullet>().Setup(mm.kGO);
+            }
 
-            Charic2D mm =  Charic2DManager.Instance.Charic_find_enemy(transform);
-            if(mm!= null) go.GetComponent<Bullet>().Setup(mm.kGO);
         }
-
-    
-}
+    }
 
 
-    void SetAnimation(string anim)
+    void SetAnimation(string anim) // °È±â anim
     {
         anim_cur = anim;
         if (anim_old == anim_cur) return;
 
         animator.Play(anim_cur);
     }
-    private void Move()
+    private void HeroMove() 
     {
         Vector2 move = Vector2.zero;
         move.x = Input.GetAxis("Horizontal");

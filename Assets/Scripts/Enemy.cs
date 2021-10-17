@@ -68,6 +68,8 @@ public class Enemy : Charic2D
                 break;
             case eAct.hit:
                 MoveSpeed = 0;
+                hp_cur -= 35;
+                
                 break;
             case eAct.die:
                 MoveSpeed = 0;
@@ -90,15 +92,19 @@ public class Enemy : Charic2D
                     Act_start(eAct.run);
                 break;
             case eAct.run:
-                if (target == null) { Act_start(eAct.idle); break; }
+                if (target == null)  Act_start(eAct.idle); break; 
                 if (GetDistrance2D(transform.position, target.transform.position) > 6)
                     Act_start(eAct.idle);
                 break;
             case eAct.attack:
                 break;
             case eAct.hit:
+                if (hp_cur <= 0) Act_start(eAct.die);
+                else Act_start(eAct.idle);
                 break;
+
             case eAct.die:
+                
                 break;
         }
     }

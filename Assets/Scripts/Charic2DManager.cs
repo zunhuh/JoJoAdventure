@@ -15,6 +15,8 @@ Charic2DManager.Instance.Charics_update();
 public class Charic2DManager : MonoBehaviour
 {
     public List<Charic2D> kCharicList = new List<Charic2D>();
+    private List<Charic2D> kCharicDieList = new List<Charic2D>();
+    public PlayScene playsc;
 
     int uid_seed = 0;
 
@@ -49,6 +51,7 @@ public class Charic2DManager : MonoBehaviour
 
     void Start()
     {
+        playsc = GameObject.Find("Scene").GetComponent<PlayScene>();
         //kRoot = GameObject.Find("root_charic");
         //Debug.Log("CharicManager Start");
     }
@@ -73,11 +76,20 @@ public class Charic2DManager : MonoBehaviour
         foreach (Charic2D obj in kCharicList)
         {
             obj.Charic_update();
+            if (obj.act_cur == Charic2D.eAct.die) kCharicDieList.Add(obj);
         }
+        foreach (Charic2D obj in kCharicDieList)
+        {
+            playsc.killCount += 1;
+            Charic_remove(obj);
+            
+        }
+        kCharicDieList.Clear();
+
     }
 
-    // add charic
-    public Charic2D Charic_add(int _id, CharicType _type, string _resource)
+        // add charic
+        public Charic2D Charic_add(int _id, CharicType _type, string _resource)
     {
         //스크립트 Charic2D 추가된 GameObject 불러오기
         GameObject go = GameObject_from_prefab(_resource);  //"Prefabs/" + _resource
@@ -156,19 +168,19 @@ public class Charic2DManager : MonoBehaviour
     public Charic2D Charic_find_enemy(Transform tr) //근접 몬스터 찾기
     {
         Charic2D monster = null;
-        float dist = 99999;
-
+        float dist = 6;
         for (int i = 0; i < kCharicList.Count; i++)
         {
             Charic2D obj = (Charic2D)kCharicList[i];
             if (obj == null) continue;
-
-            float dist_cur = Vector3.Distance(tr.position, obj.kGO.transform.position);
+            float dist_cur;
+            dist_cur = Vector3.Distance(tr.position, obj.kGO.transform.position);
             if ( dist_cur < dist) {
                 dist = dist_cur;
                 monster = obj;                
             }
         }
+        
         return monster;
     }
 }

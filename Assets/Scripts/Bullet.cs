@@ -40,10 +40,28 @@ public class Bullet : MonoBehaviour
         return new Vector2(dir.x, dir.y);
     }
     public void OnTriggerEnter2D(Collider2D collider)
-    { 
-        if (collider.name != "Hero")
+    {
+        GameObject go = collider.gameObject;
+
+        // Charic
+        Charic2D charic = go.GetComponent<Charic2D>();
+        if (charic != null)
         {
+            if(charic.kType == CharicType.Enemy )
+            {
+                Enemy enemy = charic as Enemy;
+                enemy.Act_start(Charic2D.eAct.hit);
+
+            }
+
+
             Destroy(this.gameObject);
+            
         }
+        
+        //Wall
+
+
+        
     }
 }

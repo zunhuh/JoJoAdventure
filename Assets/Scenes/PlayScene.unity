@@ -677,7 +677,6 @@ MonoBehaviour:
   player: {fileID: 1509658356}
   bullet: {fileID: 3830916702562393257, guid: 4385d4aa6a3317d4bb67c8eda942b090, type: 3}
   firepos: {fileID: 1333456957}
-  monster: {fileID: 0}
 --- !u!4 &981445330
 Transform:
   m_ObjectHideFlags: 0
@@ -880,6 +879,7 @@ MonoBehaviour:
   - {fileID: 726253344}
   - {fileID: 411872679}
   hero: {fileID: 981445328}
+  killCount: 0
 --- !u!114 &1296778190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,6 +893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kCharicList: []
+  playsc: {fileID: 0}
 --- !u!1 &1310443845
 GameObject:
   m_ObjectHideFlags: 3
@@ -1434,7 +1435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1872553358
 MonoBehaviour:
   m_ObjectHideFlags: 0
