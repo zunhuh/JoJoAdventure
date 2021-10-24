@@ -15,6 +15,17 @@ public class Hero : MonoBehaviour
 
     string anim_cur = "idle";
     string anim_old ="";
+    //½ºÅÝ
+    int maxhp = 100;
+    int curhp = 100;
+    int atk=5;
+    float atk_speed=1;
+    public enum etype
+    {
+
+    }
+
+    bool fire_check= false;
 
     
         void Start()
@@ -24,24 +35,33 @@ public class Hero : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
         HeroMove();
-        Fire();    
+        if (Input.GetKey(KeyCode.Space)&&fire_check == false)
+        {   
+            StartCoroutine(Fire(atk, atk_speed));
+
+        }
     }
 
-    public void Fire()   //ÃÑ¾Ë¹ß»ç
+    IEnumerator Fire(int p,float t)   //ÃÑ¾Ë¹ß»ç
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+      
+
             Charic2D mm = Charic2DManager.Instance.Charic_find_enemy(transform);
             if (mm != null)
             {
-                GameObject go = GameObject.Instantiate(bullet);
+            fire_check = true;
+
+            GameObject go = GameObject.Instantiate(bullet);
                 go.transform.position = firepos.transform.position;
                 go.GetComponent<Bullet>().Setup(mm.kGO);
-            }
 
-        }
+            yield return new WaitForSeconds(atk_speed);
+
+            fire_check = false;
+            }
+      
     }
 
 

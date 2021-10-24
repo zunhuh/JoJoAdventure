@@ -76,7 +76,7 @@ public class Charic2DManager : MonoBehaviour
         foreach (Charic2D obj in kCharicList)
         {
             obj.Charic_update();
-            if (obj.act_cur == Charic2D.eAct.die) kCharicDieList.Add(obj);
+            if (obj.act_cur == Charic2D.eAct.disappear) kCharicDieList.Add(obj);
         }
         foreach (Charic2D obj in kCharicDieList)
         {

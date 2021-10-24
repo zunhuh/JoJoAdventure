@@ -84,17 +84,18 @@ public class Enemy : Charic2D
         {
             case eAct.appear:
                 break;
+                //매니저에서 삭제
             case eAct.disappear:
                 break;
             case eAct.idle:
                 if (target == null) break;
-                if (GetDistrance2D(transform.position, target.transform.position) < 3)
+                if (GetDistrance2D(transform.position, target.transform.position) < 4)
                     Act_start(eAct.run);
                 break;
             case eAct.run:
-                if (target == null)  Act_start(eAct.idle); break; 
-                if (GetDistrance2D(transform.position, target.transform.position) > 6)
-                    Act_start(eAct.idle);
+                if (target == null)  Act_start(eAct.idle);
+                if (GetDistrance2D(transform.position, target.transform.position) > 7) Act_start(eAct.idle);
+                    
                 break;
             case eAct.attack:
                 break;
@@ -104,7 +105,7 @@ public class Enemy : Charic2D
                 break;
 
             case eAct.die:
-                
+                Act_start(eAct.disappear);
                 break;
         }
     }
