@@ -98,6 +98,15 @@ public class Charic2DManager : MonoBehaviour
         switch ((CharicType)_type)
         {
             case CharicType.Hero:
+
+                {
+                    kCharic = go.transform.GetComponent<Hero>();
+                    kCharic.kGO = go;
+                    kCharic.kGO.name = "charic_" + kCharic.ID;
+                    kCharic.ID = _id;                           //id
+                    kCharic.kType = (CharicType)_type;      //type
+                }
+                break;
             case CharicType.Enemy:
                 {
                     kCharic = go.transform.GetComponent<Enemy>();

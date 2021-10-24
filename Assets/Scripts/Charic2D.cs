@@ -38,8 +38,8 @@ public class Charic2D : MonoBehaviour
         disappear,  // delete
         idle,
         run,
-        attack,     // target
-        hit,        //
+        attack,   // target
+        hit, 
         die
     };
     public eAct act_cur;           //액션
@@ -64,6 +64,9 @@ public class Charic2D : MonoBehaviour
     
     public delegate void Callback_charic(Hashtable _data);
 	public Callback_charic OnCallback_charic;   //외부에서 이벤트 처리
+
+    string anim_cur = "idle"; //애니메이션제어
+    string anim_old = "";
 
     //--------------------------------------------------------------
     void Start()
@@ -118,9 +121,14 @@ public class Charic2D : MonoBehaviour
     }
 
     //-----------------------------------------------------------------------------------------
-    public void Animation_set(string _name)
+    public void Animation_set(string anim)
     {
         //if (curAnimation != null) curAnimation.Play(_name);
+
+        anim_cur = anim;
+        if (anim_old == anim_cur) return;
+
+        animator.Play(anim_cur);
     }
 
 

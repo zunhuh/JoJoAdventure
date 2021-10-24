@@ -12,8 +12,13 @@ public class PlayScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        heroSc = hero.GetComponent<Hero>();
-        InvokeRepeating("Spawn", 0, 3);
+        heroSc = (Hero)Charic2DManager.Instance.Charic_add(0, CharicType.Hero, "Hero");
+        heroSc.Charic_init();
+        hero = heroSc.kGO;
+        hero.transform.position = new Vector3(0,0,0);
+        
+
+        InvokeRepeating("Spawn", 0, 3);        
     }
 
     // Update is called once per frame
@@ -30,7 +35,7 @@ public class PlayScene : MonoBehaviour
         //print(rnd);
         //print(spawnpos[rnd].name);
         Enemy enemy;
-        enemy = (Enemy)Charic2DManager.Instance.Charic_add(0, CharicType.Enemy, "Enemy");
+        enemy = (Enemy)Charic2DManager.Instance.Charic_add(1, CharicType.Enemy, "Enemy");
         enemy.target = hero;
         enemy.transform.position = spawnpos[rnd].transform.position;
         enemy.Charic_init();

@@ -69,7 +69,7 @@ public class Enemy : Charic2D
             case eAct.hit:
                 MoveSpeed = 0;
                 hp_cur -= 35;
-                
+                fAttackTime = Time.time + 0.5f;
                 break;
             case eAct.die:
                 MoveSpeed = 0;
@@ -100,13 +100,19 @@ public class Enemy : Charic2D
             case eAct.attack:
                 break;
             case eAct.hit:
-                if (hp_cur <= 0) Act_start(eAct.die);
-                else Act_start(eAct.idle);
+                if (Time.time > fAttackTime)
+                {
+                    if (hp_cur <= 0)    Act_start(eAct.die);
+                    else                Act_start(eAct.idle);
+                    
+                }
                 break;
+
 
             case eAct.die:
                 Act_start(eAct.disappear);
                 break;
         }
     }
+
 }
