@@ -64,7 +64,11 @@ public class Enemy : Charic2D
                 MoveSpeed = 2.0f;
                 break;
             case eAct.attack:
+                
+                target.GetComponent<Hero>().target = gameObject;
+                target.GetComponent<Hero>().Act_start(eAct.hit);
                 MoveSpeed = 0;
+                fAttackTime = Time.time + 0.5f;
                 break;
             case eAct.hit:
                 MoveSpeed = 0;
@@ -95,11 +99,18 @@ public class Enemy : Charic2D
             case eAct.run:
                 if (target == null)  Act_start(eAct.idle);
                 if (GetDistrance2D(transform.position, target.transform.position) > 7) Act_start(eAct.idle);
-                    
+                if (GetDistrance2D(transform.position, target.transform.position) < 1.5f) Act_start(eAct.attack);    
                 break;
             case eAct.attack:
+                
+                if (Time.time >fAttackTime)
+                {
+                    Act_start(eAct.idle);
+
+                }
                 break;
             case eAct.hit:
+                Knockback();
                 if (Time.time > fAttackTime)
                 {
                     if (hp_cur <= 0)    Act_start(eAct.die);

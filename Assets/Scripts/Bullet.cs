@@ -42,20 +42,24 @@ public class Bullet : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D collider)
     {
         GameObject go = collider.gameObject;
+        
+
 
         // Charic
         Charic2D charic = go.GetComponent<Charic2D>();
+        
         if (charic != null)
         {
             if(charic.kType == CharicType.Enemy )
             {
+                
                 Enemy enemy = charic as Enemy;
+                enemy.powerDir = -GetDir2D(target.transform.position, transform.position);
+                enemy.power = 2;
                 enemy.Act_start(Charic2D.eAct.hit);
-
+                Destroy(this.gameObject, 0.1f);
             }
-
-
-            Destroy(this.gameObject);
+            
             
         }
         

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayScene : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class PlayScene : MonoBehaviour
     public GameObject hero;
     Hero heroSc;
     public int killCount = 0;
+    public CinemachineVirtualCamera cmVcam;
+
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +19,7 @@ public class PlayScene : MonoBehaviour
         heroSc.Charic_init();
         hero = heroSc.kGO;
         hero.transform.position = new Vector3(0,0,0);
-        
+        cmVcam.Follow = hero.transform;
 
         InvokeRepeating("Spawn", 0, 3);        
     }

@@ -181,10 +181,11 @@ public class Charic2DManager : MonoBehaviour
         for (int i = 0; i < kCharicList.Count; i++)
         {
             Charic2D obj = (Charic2D)kCharicList[i];
-            if (obj == null) continue;
+            if (obj.kType == CharicType.Hero) continue;
             float dist_cur;
             dist_cur = Vector3.Distance(tr.position, obj.kGO.transform.position);
-            if ( dist_cur < dist) {
+            if ( dist_cur < dist)
+            {   
                 dist = dist_cur;
                 monster = obj;                
             }

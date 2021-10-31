@@ -59,7 +59,9 @@ public class Charic2D : MonoBehaviour
 
     // target charic
     public Charic2D target_charic = null;
-    public GameObject target = null;       // target GameObject   
+    public GameObject target = null;// target GameObject
+    public float power;
+    public Vector2 powerDir;
 
     
     public delegate void Callback_charic(Hashtable _data);
@@ -118,6 +120,17 @@ public class Charic2D : MonoBehaviour
             moveDir = new Vector2(dir.x, dir.y);
         }
         rigid2D.position += moveDir * MoveSpeed * Time.deltaTime;
+    }
+    public void Knockback()
+    {
+        if (target != null)
+        {
+            //Vector2 moveDir = Vector2.zero;
+            //Vector3 dir = powerDir;
+            //moveDir = new Vector2(dir.x, dir.y);
+            //Debug.Log(moveDir);
+            rigid2D.position += -powerDir * power * Time.deltaTime;
+        }
     }
 
     //-----------------------------------------------------------------------------------------
