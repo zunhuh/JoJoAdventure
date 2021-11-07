@@ -38,6 +38,7 @@ public class Charic2DManager : MonoBehaviour
 
     void Awake()
     {
+        
         if (s_Instance != null)
         {
             //Debug.LogError("Cannot have two instances of CharicManager.");
@@ -51,7 +52,7 @@ public class Charic2DManager : MonoBehaviour
 
     void Start()
     {
-        playsc = GameObject.Find("Scene").GetComponent<PlayScene>();
+        playsc = GameObject.Find("PlayScene").GetComponent<PlayScene>();
         //kRoot = GameObject.Find("root_charic");
         //Debug.Log("CharicManager Start");
     }
@@ -156,6 +157,12 @@ public class Charic2DManager : MonoBehaviour
     {
         foreach (Charic2D obj in kCharicList) Destroy(obj.kGO);
         kCharicList.Clear();
+    }
+    public void MonsterRemove()
+    {
+
+        foreach (Charic2D obj in kCharicList)
+            if (obj.kType != CharicType.Hero) Destroy(obj.gameObject);
     }
 
     //find

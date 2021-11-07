@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 
-public class SceneManager : MonoBehaviour
+public class LobbyScene : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -15,4 +16,5 @@ public class SceneManager : MonoBehaviour
     {
         
     }
+    
 }

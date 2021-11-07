@@ -55,6 +55,7 @@ public class Hero : Charic2D
             case eAct.attack:
                 break;
             case eAct.hit:
+                hp_cur -= 50;
                 power = 2;
                 powerDir = GetDir2D(target.transform.position, transform.position);
                 fAttackTime = Time.time + 0.5f;
